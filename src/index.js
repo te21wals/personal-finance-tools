@@ -12,30 +12,25 @@ const parseExport = ({
     source
 }) => {
     const transactions = [];
-
-    fs.createReadStream(filepath)
-        .on('error', () => {
-            console.log('there was an error processing the export.');
-        })
-        .pipe(parse())
-        .on('data', row => {
-            transactions.add({
-                date: moment(row[dateColumn]).format(dateFormatString),
-                description: row[descriptionColumn],
-                amount: row[debitColumn] || row[creditColumn],
-                source
+    return new Promise((resolve, reject) => {
+        fs.createReadStream(filepath)
+            .on('error', reject)
+            .pipe(parse())
+            .on('data', row => {
+                transactions.push({
+                    date: moment(row[dateColumn], dateFormatString).format(),
+                    description: row[descriptionColumn],
+                    amount: row[debitColumn] || row[creditColumn],
+                    source
+                });
+            })
+            .on('end', () => {
+                resolve(transactions);
             });
-        })
-        .on('end', () => {
-            console.log({
-                message: 'finished processing the export',
-                source,
-                filepath
-            });
-        });
+    });
 };
 
-(() => {
+(async () => {
     const filepath = './exports/debit-card/Export.csv';
     const input = {
         dateColumn: 'Date',
@@ -46,5 +41,5 @@ const parseExport = ({
         source: 'debit-card'
     };
 
-    parseExport({ filepath, ...input });
+    console.log(await parseExport({ filepath, ...input }));
 })();
