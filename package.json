@@ -22,7 +22,8 @@
     "dependencies": {
         "csv-parser": "^2.3.2",
         "fs": "0.0.1-security",
-        "moment": "^2.24.0"
+        "moment": "^2.24.0",
+        "path": "^0.12.7"
     },
     "husky": {
         "hooks": {
