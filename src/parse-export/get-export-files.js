@@ -21,8 +21,8 @@ async function* getTransactionsForEachExport(getExportFilesIter) {
     }
 }
 
-async function reduceTransactionsToSingleArray(asyncIter, init = []) {
-    let res = init;
+async function reduceTransactionsToSingleArray(asyncIter) {
+    let res = [];
     for await (const x of asyncIter) {
         res = [...res, ...x];
     }
