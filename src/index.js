@@ -1,4 +1,4 @@
-const { getAllTransactions } = require('./parse-export/get-export-files');
+const { getAllTransactions } = require('./parse-export/get-all-export-transactions');
 
 // async function reduce(asyncIter, reduceFunction, init = []) {
 //     let res = init;
