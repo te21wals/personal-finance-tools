@@ -1,13 +1,13 @@
 const { resolve } = require('path');
 const { readdir } = require('fs').promises;
+const { parseExport } = require('./parse-export');
 
-// https://qwtel.com/posts/software/async-generators-in-the-wild/
-async function* getExports(dir) {
+async function* getExportFiles(dir) {
     const dirents = await readdir(dir, { withFileTypes: true });
     for (const dirent of dirents) {
         const filepath = resolve(dir, dirent.name);
         if (dirent.isDirectory()) {
-            yield* getExports(filepath);
+            yield* getExportFiles(filepath);
         } else {
             const exportType = dir.split('/').pop();
             yield { filepath, exportType };
@@ -15,4 +15,23 @@ async function* getExports(dir) {
     }
 }
 
-module.exports = { getExports };
+async function* getTransactionsForEachExport(getExportFilesIter) {
+    for await (const obj of getExportFilesIter) {
+        yield await parseExport(obj);
+    }
+}
+
+async function reduceTransactionsToSingleArray(asyncIter, init = []) {
+    let res = init;
+    for await (const x of asyncIter) {
+        res = [...res, ...x];
+    }
+    return res;
+}
+
+const getAllTransactions = async rootExportPath =>
+    await reduceTransactionsToSingleArray(
+        getTransactionsForEachExport(getExportFiles(rootExportPath))
+    );
+
+module.exports = { getAllTransactions };
