@@ -1,18 +1,4 @@
-// todo: move this to a config module...
-const object = {
-    'guilt-free': {
-        subTypes: [
-            'eating out',
-            'beers',
-            'subscription',
-            'work / personal development'
-        ]
-    },
-    utility: {
-        subTypes: ['groceries', 'parking', 'gas', 'heat / ac']
-    }
-};
-
+const budget = require('./config/budget-config');
 const skip = 'skip';
 
 const createOverrideDescriptionPrompts = types => {
@@ -55,11 +41,11 @@ const mapSubtypesToSubtypePrompt = (parentType, subTypes) => {
 const getPrompts = () => {
     const prompts = [];
 
-    const types = Object.keys(object);
+    const types = Object.keys(budget);
     prompts.push(mapTypesToHandlePrompt(types));
 
     for (const type of types) {
-        prompts.push(mapSubtypesToSubtypePrompt(type, object[type].subTypes));
+        prompts.push(mapSubtypesToSubtypePrompt(type, budget[type].subTypes));
     }
 
     return [...prompts, ...createOverrideDescriptionPrompts(types)];

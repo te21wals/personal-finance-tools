@@ -23,7 +23,7 @@ const _parseExport = (
             .on('data', row => {
                 const normalizedTransaction = {
                     date: moment(row[dateColumn], dateFormatString).format(),
-                    description: row[descriptionColumn],
+                    description: row[descriptionColumn].toLowerCase(),
                     amount: Number(row[debitColumn] || row[creditColumn]),
                     source
                 };
