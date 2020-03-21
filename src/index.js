@@ -1,4 +1,4 @@
-const { getAllTransactions } = require('./parse-export/get-all-transactions');
+const { getAllTransactions } = require('./get-all-transactions');
 const { prompt } = require('./inquirer');
 const { mapTransactionDescription } = require('./apply-description-mappings');
 
@@ -15,6 +15,4 @@ const { mapTransactionDescription } = require('./apply-description-mappings');
         if (normalizedTransaction)
             normalizedTransactions.push(normalizedTransaction);
     }
-
-    console.log(normalizedTransactions);
 })();
