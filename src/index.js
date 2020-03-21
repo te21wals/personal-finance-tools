@@ -1,6 +1,7 @@
 const { getAllTransactions } = require('./get-all-transactions');
 const { prompt } = require('./inquirer');
 const { mapTransactionDescription } = require('./apply-description-mappings');
+const { writeTransactions } = require('./write-transactions');
 
 (async () => {
     const parsedTransactions = await getAllTransactions('./exports');
@@ -15,4 +16,6 @@ const { mapTransactionDescription } = require('./apply-description-mappings');
         if (normalizedTransaction)
             normalizedTransactions.push(normalizedTransaction);
     }
+
+    await writeTransactions(normalizedTransactions, 'out.csv');
 })();
