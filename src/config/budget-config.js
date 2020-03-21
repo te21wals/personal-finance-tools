@@ -4,7 +4,8 @@ module.exports = Object.freeze({
             'eating out',
             'beers',
             'subscription',
-            'work / personal development'
+            'work / personal development',
+            'cash'
         ]
     },
     utility: {

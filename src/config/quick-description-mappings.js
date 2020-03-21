@@ -26,4 +26,4 @@ mappings.set('chegg', 'chegg');
 mappings.set('spotify', 'chegg');
 mappings.set('netflix', 'netflix');
 
-module.exports = { mappings };
+module.exports = { mappings: Object.freeze(mappings) };
