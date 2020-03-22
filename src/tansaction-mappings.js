@@ -1,11 +1,11 @@
-const { mappings } = require('./config/quick-description-mappings');
+const { mappings } = require('./config/transaction-mapping-config');
 
 const mapTransactionDescription = transction => {
     for (const [matchValue, mapToValue] of mappings) {
         if (transction.description.includes(matchValue)) {
             return {
                 ...transction,
-                description: mapToValue
+                ...mapToValue
             };
         }
     }

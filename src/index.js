@@ -1,6 +1,6 @@
 const { getAllTransactions } = require('./get-all-transactions');
-const { prompt } = require('./inquirer');
-const { mapTransactionDescription } = require('./apply-description-mappings');
+const { prompt } = require('./normalize-transaction');
+const { mapTransactionDescription } = require('./tansaction-mappings');
 const { writeTransactions } = require('./write-transactions');
 
 (async () => {

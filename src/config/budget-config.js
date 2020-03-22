@@ -1,14 +1,17 @@
 module.exports = Object.freeze({
     'guilt-free': {
-        subTypes: [
+        subtypes: [
             'eating out',
             'beers',
             'subscription',
             'work / personal development',
-            'cash'
+            'cash',
+            'travel',
+            'coffee',
+            'amazon'
         ]
     },
     utility: {
-        subTypes: ['groceries', 'parking', 'gas', 'heat / ac']
+        subtypes: ['groceries', 'parking', 'gas', 'heat / ac']
     }
 });
