@@ -8,10 +8,16 @@ module.exports = Object.freeze({
             'cash',
             'travel',
             'coffee',
-            'amazon'
+            'household items'
         ]
     },
     utility: {
-        subtypes: ['groceries', 'parking', 'gas', 'heat / ac']
+        subtypes: [
+            'groceries',
+            'parking',
+            'gas',
+            'heat / ac',
+            'medical expense'
+        ]
     }
 });

@@ -3,20 +3,17 @@ const fs = require('fs');
 const moment = require('moment');
 const { parsingConfig } = require('./config/parsing-config');
 
-const _parseExport = (
-    {
-        filepath,
-        dateColumn,
-        dateFormatString,
-        descriptionColumn,
-        debitColumn,
-        creditColumn,
-        source
-    },
-    headers
-) => {
-    const transactions = [];
+const _parseExport = (filepath, { mappingConfig, headers }) => {
     return new Promise((resolve, reject) => {
+        const {
+            dateColumn,
+            dateFormatString,
+            descriptionColumn,
+            debitColumn,
+            creditColumn,
+            source
+        } = mappingConfig;
+        const transactions = [];
         fs.createReadStream(filepath)
             .on('error', reject)
             .pipe(parse(headers))
@@ -38,23 +35,11 @@ const _parseExport = (
 const parseExport = ({ filepath, exportType }) => {
     switch (exportType) {
         case 'apple-card':
-            return _parseExport({
-                filepath,
-                ...parsingConfig.appleCard.mappingConfig
-            });
+            return _parseExport(filepath, parsingConfig.appleCard);
         case 'debit-card':
-            return _parseExport({
-                filepath,
-                ...parsingConfig.debitCard.mappingConfig
-            });
+            return _parseExport(filepath, parsingConfig.debitCard);
         case 'visa-card':
-            return _parseExport(
-                {
-                    filepath,
-                    ...parsingConfig.visaCard.mappingConfig
-                },
-                parsingConfig.visaCard.headers
-            );
+            return _parseExport(filepath, parsingConfig.visaCard);
         default:
             throw new Error('invalid export type');
     }
