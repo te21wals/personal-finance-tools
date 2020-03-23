@@ -37,7 +37,8 @@ const parsingConfig = Object.freeze({
             debitColumn: 'Amount (USD)',
             creditColumn: 'Amount (USD)',
             source: 'apple-card'
-        }
+        },
+        invertTransactionAmount: true
     }
 });
 

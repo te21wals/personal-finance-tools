@@ -3,7 +3,10 @@ const fs = require('fs');
 const moment = require('moment');
 const { parsingConfig } = require('./config/parsing-config');
 
-const _parseExport = (filepath, { mappingConfig, headers }) => {
+const _parseExport = (
+    filepath,
+    { mappingConfig, headers, invertTransactionAmount }
+) => {
     return new Promise((resolve, reject) => {
         const {
             dateColumn,
@@ -18,10 +21,13 @@ const _parseExport = (filepath, { mappingConfig, headers }) => {
             .on('error', reject)
             .pipe(parse(headers))
             .on('data', row => {
+                const amount = Number(row[debitColumn] || row[creditColumn]);
                 const normalizedTransaction = {
                     date: moment(row[dateColumn], dateFormatString).format(),
                     description: row[descriptionColumn].toLowerCase(),
-                    amount: Number(row[debitColumn] || row[creditColumn]),
+                    amount: invertTransactionAmount
+                        ? amount - amount * 2
+                        : amount,
                     source
                 };
                 transactions.push(normalizedTransaction);
