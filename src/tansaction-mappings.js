@@ -1,6 +1,6 @@
 const { mappings } = require('./config/transaction-mapping-config');
 
-const mapTransactionDescription = transction => {
+const applyTransactionMapping = transction => {
     for (const [matchValue, mapToValue] of mappings) {
         if (transction.description.includes(matchValue)) {
             return {
@@ -12,4 +12,4 @@ const mapTransactionDescription = transction => {
     return transction;
 };
 
-module.exports = { mapTransactionDescription };
+module.exports = { applyTransactionMapping };
