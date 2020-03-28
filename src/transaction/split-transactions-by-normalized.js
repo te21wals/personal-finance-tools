@@ -1,10 +1,21 @@
 const {
     parseNormalizedTransaction
-} = require('./parse-normalized-transactions');
+} = require('../csv/parse-normalized-transactions');
 
-module.exports.splitTransactionsByNormalized = async transactionsFromExports => {
+module.exports.splitTransactionsByNormalized = async (
+    transactionsFromExports,
+    outputPath,
+    usePreviouslyNormalizedTransactions
+) => {
+    if (!usePreviouslyNormalizedTransactions) {
+        return {
+            previouslyNormalizedTrasactions: [],
+            unnormalizedTrasactions: transactionsFromExports
+        };
+    }
+
     const previouslyNormalizedTransactions = await parseNormalizedTransaction(
-        './out.csv'
+        outputPath
     );
 
     const previouslyNormalizedTrasactions = [];

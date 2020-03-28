@@ -1,4 +1,4 @@
-const { mappings } = require('./config/transaction-mapping-config');
+const { mappings } = require('../config/transaction-mapping-config');
 
 const applyTransactionMapping = transction => {
     for (const [matchValue, mapToValue] of mappings) {

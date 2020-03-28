@@ -1,4 +1,4 @@
-const budget = require('./config/budget-config');
+const budget = require('../config/budget-config');
 const skip = 'skip';
 
 const createOverrideDescriptionPrompts = types => {

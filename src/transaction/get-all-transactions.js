@@ -1,6 +1,6 @@
 const { resolve } = require('path');
 const { readdir } = require('fs').promises;
-const { parseExport } = require('./parse-export');
+const { parseExport } = require('../csv/parse-export');
 
 async function* getExportFiles(dir) {
     const dirents = await readdir(dir, { withFileTypes: true });

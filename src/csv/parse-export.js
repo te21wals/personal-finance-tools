@@ -1,7 +1,7 @@
 const parse = require('csv-parser');
 const fs = require('fs');
 const moment = require('moment');
-const { parsingConfig } = require('./config/parsing-config');
+const { parsingConfig } = require('../config/parsing-config');
 
 const _parseExport = (
     filepath,

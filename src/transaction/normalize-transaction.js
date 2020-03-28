@@ -2,7 +2,7 @@ const inquirer = require('inquirer');
 const {
     makePromptsFromConfig,
     skip
-} = require('./create-normalization-prompts');
+} = require('../prompt/create-normalization-prompts');
 
 module.exports.prompt = async transaction => {
     const prompts = makePromptsFromConfig(transaction);
