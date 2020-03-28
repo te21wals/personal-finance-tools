@@ -1,43 +1,13 @@
 const budget = require('../config/budget-config');
+const {
+    createOverrideDescriptionPrompt
+} = require('./create-override-description-prompt');
+const {
+    createTransactionTypePrompt
+} = require('./create-transaction-type-prompt');
+
+const { mapSubtypesToSubtypePrompt } = require('./create-subtype-prompt');
 const skip = 'skip';
-
-const createOverrideDescriptionPrompts = types => {
-    return [
-        {
-            type: 'confirm',
-            name: 'changeDescription',
-            message: 'Would you like to change the transaction description?',
-            default: false,
-            when: ({ type }) => new Set(types).has(type)
-        },
-        {
-            type: 'input',
-            name: 'description',
-            message: 'enter the new description: ',
-            when: ({ changeDescription }) => changeDescription,
-            validate: value => Boolean(value) || 'enter a valid description'
-        }
-    ];
-};
-
-const mapTypesToHandlePrompt = types => {
-    return {
-        type: 'list',
-        name: 'type',
-        message: `How do you want to handle this transaction?`,
-        choices: [skip, ...types]
-    };
-};
-
-const mapSubtypesToSubtypePrompt = (parentType, subtypes, transactionType) => {
-    return {
-        type: 'list',
-        name: 'subtype',
-        message: `Enter the ${parentType} sub type: `,
-        choices: subtypes,
-        when: ({ type }) => type === parentType || transactionType == parentType
-    };
-};
 
 const makePromptsFromConfig = transaction => {
     const missingFieldsSet = new Set(
@@ -54,7 +24,7 @@ const makePromptsFromConfig = transaction => {
 
     // if type is not present prmopt user for type
     if (missingFieldsSet.has('type')) {
-        prompts.push(mapTypesToHandlePrompt(types));
+        prompts.push(createTransactionTypePrompt(types));
     }
 
     // if subtype is not present prmopt user for subtype
@@ -70,7 +40,9 @@ const makePromptsFromConfig = transaction => {
         }
     }
 
-    return [...prompts, ...createOverrideDescriptionPrompts(types)];
+    prompts.push(createOverrideDescriptionPrompt(transaction.description));
+
+    return prompts;
 };
 
 module.exports = { makePromptsFromConfig, skip };
