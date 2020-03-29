@@ -6,18 +6,30 @@ module.exports.applyPreviousTransactionNormalization = (
     transactionsFromExports,
     previouslyNormalizedTransactions
 ) => {
-    const previouslyNormalizedTrasactions = [];
-    const unnormalizedTrasactions = [];
-    for (const transaction of transactionsFromExports) {
-        const transactionKey = previouslyNormalizedTransactionKey(transaction);
-        if (previouslyNormalizedTransactions[transactionKey]) {
-            previouslyNormalizedTrasactions.push(
-                transactionsFromExports[transactionKey]
+    return transactionsFromExports.reduce(
+        (accumulator, transaction) => {
+            const {
+                previouslyNormalizedTrasactions,
+                unnormalizedTrasactions
+            } = accumulator;
+            const transactionKey = previouslyNormalizedTransactionKey(
+                transaction
             );
-        } else {
-            unnormalizedTrasactions.push(transaction);
+            if (previouslyNormalizedTransactions[transactionKey]) {
+                previouslyNormalizedTrasactions.push(
+                    transactionsFromExports[transactionKey]
+                );
+            } else {
+                unnormalizedTrasactions.push(transaction);
+            }
+            return {
+                previouslyNormalizedTrasactions,
+                unnormalizedTrasactions
+            };
+        },
+        {
+            previouslyNormalizedTrasactions: [],
+            unnormalizedTrasactions: []
         }
-    }
-
-    return { previouslyNormalizedTrasactions, unnormalizedTrasactions };
+    );
 };
