@@ -1,7 +1,8 @@
-const createTransactionTypePrompt = (types, includeSkip = false) => {
-    let choices = [...types];
-    if (includeSkip) choices = ['skip', ...types];
-    else choices = [...types];
+const budget = require('../config/budget-config');
+
+const createTransactionTypePrompt = ({ includeSkip = false }) => {
+    let choices = [...Object.keys(budget)];
+    if (includeSkip) choices = ['skip', ...choices];
 
     return {
         type: 'list',

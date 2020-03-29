@@ -1,4 +1,4 @@
-const createOverrideDescriptionPrompt = (currentDescription = '') => {
+const createOverrideDescriptionPrompt = ({ currentDescription = '' }) => {
     return {
         type: 'input',
         name: 'description',

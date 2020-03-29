@@ -1,4 +1,3 @@
-const budget = require('../config/budget-config');
 const {
     createOverrideDescriptionPrompt
 } = require('./create-override-description-prompt');
@@ -23,23 +22,24 @@ const makePromptsFromConfig = transaction => {
     }
 
     const prompts = [];
-    const types = Object.keys(budget);
 
-    // if type is not present prmopt user for type
     if (missingFieldsSet.has('type')) {
-        prompts.push(createTransactionTypePrompt(types, false));
+        prompts.push(createTransactionTypePrompt({ includeSkip: true }));
     }
 
-    // if subtype is not present prmopt user for subtype
     if (missingFieldsSet.has('subtype')) {
-        for (const type of types) {
-            prompts.push(
-                createTransactionSubtypePrompt(type, transaction.type)
-            );
-        }
+        prompts.push(
+            ...createTransactionSubtypePrompt({
+                transactionType: transaction.transactionType
+            })
+        );
     }
 
-    prompts.push(createOverrideDescriptionPrompt(transaction.description));
+    prompts.push(
+        createOverrideDescriptionPrompt({
+            currentDescription: transaction.description
+        })
+    );
 
     return prompts;
 };
