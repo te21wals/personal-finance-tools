@@ -1,5 +1,5 @@
 const parsingConfig = Object.freeze({
-    debitCard: {
+    'debit-card': {
         mappingConfig: {
             dateColumn: 'Date',
             dateFormatString: 'MM/DD/YYYY',
@@ -9,7 +9,7 @@ const parsingConfig = Object.freeze({
             source: 'debit-card'
         }
     },
-    visaCard: {
+    'visa-card': {
         mappingConfig: {
             dateColumn: 'clearing date',
             dateFormatString: 'MM/DD/YYYY',
@@ -29,7 +29,7 @@ const parsingConfig = Object.freeze({
             'type of transaction'
         ]
     },
-    appleCard: {
+    'apple-card': {
         mappingConfig: {
             dateColumn: 'Clearing Date',
             dateFormatString: 'MM/DD/YYYY',

@@ -3,11 +3,13 @@ const fs = require('fs');
 const moment = require('moment');
 const { parsingConfig } = require('../config/parsing-config');
 
-const _parseExport = (
-    filepath,
-    { mappingConfig, headers, invertTransactionAmount }
-) => {
+const parseExport = ({ filepath, exportType }) => {
     return new Promise((resolve, reject) => {
+        const {
+            mappingConfig,
+            headers,
+            invertTransactionAmount
+        } = parsingConfig[exportType];
         const {
             dateColumn,
             dateFormatString,
@@ -36,19 +38,6 @@ const _parseExport = (
                 resolve(transactions);
             });
     });
-};
-
-const parseExport = ({ filepath, exportType }) => {
-    switch (exportType) {
-        case 'apple-card':
-            return _parseExport(filepath, parsingConfig.appleCard);
-        case 'debit-card':
-            return _parseExport(filepath, parsingConfig.debitCard);
-        case 'visa-card':
-            return _parseExport(filepath, parsingConfig.visaCard);
-        default:
-            throw new Error('invalid export type');
-    }
 };
 
 module.exports = { parseExport };
