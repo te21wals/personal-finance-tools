@@ -26,7 +26,7 @@ const parseExport = ({ filepath, exportType }) => {
                 const amount = Number(row[debitColumn] || row[creditColumn]);
                 const normalizedTransaction = {
                     date: moment(row[dateColumn], dateFormatString).format(),
-                    description: row[descriptionColumn].toLowerCase(),
+                    description: row[descriptionColumn].toLowerCase().trim(),
                     amount: invertTransactionAmount
                         ? amount - amount * 2
                         : amount,
