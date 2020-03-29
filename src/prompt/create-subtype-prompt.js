@@ -1,4 +1,7 @@
-const mapSubtypesToSubtypePrompt = (parentType, subtypes, transactionType) => {
+const budget = require('../config/budget-config');
+
+const createTransactionSubtypePrompt = (parentType, transactionType) => {
+    const subtypes = budget[parentType].subtypes;
     return {
         type: 'list',
         name: 'subtype',
@@ -8,4 +11,4 @@ const mapSubtypesToSubtypePrompt = (parentType, subtypes, transactionType) => {
     };
 };
 
-module.exports = { mapSubtypesToSubtypePrompt };
+module.exports = { createTransactionSubtypePrompt };

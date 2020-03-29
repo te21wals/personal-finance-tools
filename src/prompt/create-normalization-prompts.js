@@ -6,7 +6,8 @@ const {
     createTransactionTypePrompt
 } = require('./create-transaction-type-prompt');
 
-const { mapSubtypesToSubtypePrompt } = require('./create-subtype-prompt');
+const { createTransactionSubtypePrompt } = require('./create-subtype-prompt');
+
 const skip = 'skip';
 
 const makePromptsFromConfig = transaction => {
@@ -31,11 +32,7 @@ const makePromptsFromConfig = transaction => {
     if (missingFieldsSet.has('subtype')) {
         for (const type of types) {
             prompts.push(
-                mapSubtypesToSubtypePrompt(
-                    type,
-                    budget[type].subtypes,
-                    transaction.type
-                )
+                createTransactionSubtypePrompt(type, transaction.type)
             );
         }
     }
