@@ -1,8 +1,4 @@
-// const {
-//     previouslyNormalizedTransactionKey
-// } = require('../util/transaction-util');
-
-const venmoWithdrawlFilter = 'withdrawal venmo';
+const { venmoWithdrawlFilter } = require('../config/parsing-config');
 
 const mergeVenmoTransactions = venmoTransactions => {
     return venmoTransactions.reduce((accumulator, venmoTransaction) => {

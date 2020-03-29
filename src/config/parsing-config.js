@@ -42,4 +42,6 @@ const parsingConfig = Object.freeze({
     }
 });
 
-module.exports = { parsingConfig };
+const venmoWithdrawlFilter = 'withdrawal venmo';
+
+module.exports = { parsingConfig, venmoWithdrawlFilter };
