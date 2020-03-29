@@ -6,7 +6,9 @@ const {
     createTransactionTypePrompt
 } = require('./create-transaction-type-prompt');
 
-const { createTransactionSubtypePrompt } = require('./create-subtype-prompt');
+const {
+    createTransactionSubtypePrompt
+} = require('./create-transaction-subtype-prompt');
 
 const skip = 'skip';
 
@@ -25,7 +27,7 @@ const makePromptsFromConfig = transaction => {
 
     // if type is not present prmopt user for type
     if (missingFieldsSet.has('type')) {
-        prompts.push(createTransactionTypePrompt(types));
+        prompts.push(createTransactionTypePrompt(types, false));
     }
 
     // if subtype is not present prmopt user for subtype
