@@ -7,11 +7,11 @@ module.exports.applyPreviousTransactionNormalization = (
     previouslyNormalizedTransactions
 ) => {
     return transactionsFromExports.reduce(
-        (accumulator, transaction) => {
+        (acc, transaction) => {
             const {
                 previouslyNormalizedTrasactions,
                 unnormalizedTrasactions
-            } = accumulator;
+            } = acc;
             const transactionKey = previouslyNormalizedTransactionKey(
                 transaction
             );

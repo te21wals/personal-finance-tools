@@ -1,13 +1,13 @@
 const { venmoWithdrawlFilter } = require('../config/parsing-config');
 
 const mergeVenmoTransactions = venmoTransactions => {
-    return venmoTransactions.reduce((accumulator, venmoTransaction) => {
-        const existingVenmoTransactionOnDate = accumulator.find(
+    return venmoTransactions.reduce((acc, venmoTransaction) => {
+        const existingVenmoTransactionOnDate = acc.find(
             vt => vt.date === venmoTransaction.date
         );
 
         if (existingVenmoTransactionOnDate) {
-            const accumulatorWithoutTransaction = accumulator.filter(
+            const accWithoutTransaction = acc.filter(
                 x => x.date !== existingVenmoTransactionOnDate.date
             );
             const mergedVenmoTransaction = {
@@ -16,17 +16,17 @@ const mergeVenmoTransactions = venmoTransactions => {
                     existingVenmoTransactionOnDate.amount +
                     venmoTransaction.amount
             };
-            return [mergedVenmoTransaction, ...accumulatorWithoutTransaction];
+            return [mergedVenmoTransaction, ...accWithoutTransaction];
         }
 
-        return [venmoTransaction, ...accumulator];
+        return [venmoTransaction, ...acc];
     }, []);
 };
 
 const handleVenmoTransactions = transactionsFromExports => {
     const splitTransactions = transactionsFromExports.reduce(
-        (accumulator, exportTransaction) => {
-            const { venmoTransactions, nonVenmoTransactions } = accumulator;
+        (acc, exportTransaction) => {
+            const { venmoTransactions, nonVenmoTransactions } = acc;
             if (exportTransaction.description.includes(venmoWithdrawlFilter)) {
                 venmoTransactions.push(exportTransaction);
             } else {

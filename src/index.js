@@ -28,9 +28,11 @@ const { absoluteFilePath } = require('./util/fs-util');
         ? await parseNormalizedTransaction(absoluteOutputPath)
         : {};
 
-    handleVenmoTransactions(
-        exportTransactions,
-        previouslyNormalizedTransactions
+    console.log(
+        handleVenmoTransactions(
+            exportTransactions,
+            previouslyNormalizedTransactions
+        )
     );
 
     const {
