@@ -1,12 +1,13 @@
 const { getAllTransactions } = require('./transaction/get-all-transactions');
 const { prompt } = require('./transaction/normalize-transaction');
-const {
-    applyTransactionMapping
-} = require('./transaction/apply-tansaction-mappings');
 const { writeTransactions } = require('./csv/write-transactions');
 const {
-    splitTransactionsByNormalized
+    applyPreviousTransactionNormalization
 } = require('./transaction/split-transactions-by-normalized');
+
+const {
+    parseNormalizedTransaction
+} = require('./csv/parse-normalized-transactions');
 
 const { absoluteFilePath } = require('./util/fs-util');
 
@@ -15,18 +16,20 @@ const { absoluteFilePath } = require('./util/fs-util');
     absoluteOutputPath = absoluteFilePath('out.csv'),
     usePreviouslyNormalizedTransactions = true
 }) => {
-    const exportTransactions = await getAllTransactions(absoluteExportsPath);
+    const exportTransactions = await getAllTransactions({
+        rootExportPath: absoluteExportsPath
+    });
 
-    const exportTransactionsWithConfigMappings = exportTransactions.map(
-        transaction => applyTransactionMapping(transaction)
-    );
+    const previouslyNormalizedTransactions = usePreviouslyNormalizedTransactions
+        ? await parseNormalizedTransaction(absoluteOutputPath)
+        : [];
+
     const {
         previouslyNormalizedTrasactions,
         unnormalizedTrasactions
-    } = await splitTransactionsByNormalized(
-        exportTransactionsWithConfigMappings,
-        absoluteOutputPath,
-        usePreviouslyNormalizedTransactions
+    } = await applyPreviousTransactionNormalization(
+        exportTransactions,
+        previouslyNormalizedTransactions
     );
 
     const normalizedTransactions = [];

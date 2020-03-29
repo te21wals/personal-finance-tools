@@ -1,6 +1,7 @@
 const { resolve } = require('path');
 const { readdir } = require('fs').promises;
 const { parseExport } = require('../csv/parse-export');
+const { applyTransactionMapping } = require('./apply-tansaction-mappings');
 
 async function* getExportFiles(dir) {
     const dirents = await readdir(dir, { withFileTypes: true });
@@ -24,12 +25,18 @@ async function* getTransactionsForEachExport(getExportFilesIter) {
 async function reduceTransactionsToSingleArray(asyncIter) {
     let res = [];
     for await (const x of asyncIter) {
-        res = [...res, ...x];
+        res = [
+            ...res,
+            ...x.map(transaction => applyTransactionMapping(transaction))
+        ];
     }
     return res;
 }
-
-const getAllTransactions = async rootExportPath =>
+/*
+    get all transactions from the export files inside the rootExportPath 
+    and apply the default mappings from config
+*/
+const getAllTransactions = async ({ rootExportPath }) =>
     await reduceTransactionsToSingleArray(
         getTransactionsForEachExport(getExportFiles(rootExportPath))
     );
