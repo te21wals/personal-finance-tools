@@ -84,12 +84,6 @@ mappings.set('subway', {
     subtype: 'eating out'
 });
 
-mappings.set('withdrawal venmo', {
-    description: 'withdrawal venmo',
-    type: 'guilt-free',
-    subtype: 'cash'
-});
-
 mappings.set('withdrawal at atm', {
     description: 'cash spending',
     type: 'guilt-free',

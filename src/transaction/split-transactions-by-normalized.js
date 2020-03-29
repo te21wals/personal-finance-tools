@@ -1,11 +1,15 @@
-module.exports.applyPreviousTransactionNormalization = async (
+const {
+    previouslyNormalizedTransactionKey
+} = require('../util/transaction-util');
+
+module.exports.applyPreviousTransactionNormalization = (
     transactionsFromExports,
     previouslyNormalizedTransactions
 ) => {
     const previouslyNormalizedTrasactions = [];
     const unnormalizedTrasactions = [];
     for (const transaction of transactionsFromExports) {
-        const transactionKey = `${transaction.date}${transaction.description}${transaction.amount}${transaction.source}`;
+        const transactionKey = previouslyNormalizedTransactionKey(transaction);
         if (previouslyNormalizedTransactions[transactionKey]) {
             previouslyNormalizedTrasactions.push(
                 transactionsFromExports[transactionKey]

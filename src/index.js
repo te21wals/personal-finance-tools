@@ -6,6 +6,10 @@ const {
 } = require('./transaction/split-transactions-by-normalized');
 
 const {
+    handleVenmoTransactions
+} = require('./transaction/handle-venmo-transactions');
+
+const {
     parseNormalizedTransaction
 } = require('./csv/parse-normalized-transactions');
 
@@ -22,12 +26,17 @@ const { absoluteFilePath } = require('./util/fs-util');
 
     const previouslyNormalizedTransactions = usePreviouslyNormalizedTransactions
         ? await parseNormalizedTransaction(absoluteOutputPath)
-        : [];
+        : {};
+
+    handleVenmoTransactions(
+        exportTransactions,
+        previouslyNormalizedTransactions
+    );
 
     const {
         previouslyNormalizedTrasactions,
         unnormalizedTrasactions
-    } = await applyPreviousTransactionNormalization(
+    } = applyPreviousTransactionNormalization(
         exportTransactions,
         previouslyNormalizedTransactions
     );
