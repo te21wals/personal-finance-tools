@@ -1,5 +1,7 @@
 const { getAllTransactions } = require('./transaction/get-all-transactions');
-const { prompt } = require('./transaction/normalize-transaction');
+const {
+    normalizeTransactions
+} = require('./transaction/normalize-transaction');
 const { writeTransactions } = require('./csv/write-transactions');
 const {
     applyPreviousTransactionNormalization
@@ -28,27 +30,22 @@ const { absoluteFilePath } = require('./util/fs-util');
         ? await parseNormalizedTransaction(absoluteOutputPath)
         : {};
 
-    console.log(
-        handleVenmoTransactions(
-            exportTransactions,
-            previouslyNormalizedTransactions
-        )
+    const { venmoTransactions, nonVenmoTransactions } = handleVenmoTransactions(
+        exportTransactions,
+        previouslyNormalizedTransactions
     );
 
     const {
         previouslyNormalizedTrasactions,
         unnormalizedTrasactions
     } = applyPreviousTransactionNormalization(
-        exportTransactions,
+        nonVenmoTransactions,
         previouslyNormalizedTransactions
     );
 
-    const normalizedTransactions = [];
-    for (const transaction of unnormalizedTrasactions) {
-        const normalizedTransaction = await prompt(transaction);
-        if (normalizedTransaction)
-            normalizedTransactions.push(normalizedTransaction);
-    }
+    const normalizedTransactions = await normalizeTransactions(
+        unnormalizedTrasactions
+    );
 
     await writeTransactions(
         [...previouslyNormalizedTrasactions, ...normalizedTransactions],
