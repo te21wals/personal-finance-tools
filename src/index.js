@@ -2,53 +2,33 @@ const { getAllTransactions } = require('./transaction/get-all-transactions');
 const {
     normalizeTransactions
 } = require('./transaction/normalize-transaction');
-const { writeTransactions } = require('./csv/write-transactions');
-const {
-    applyPreviousTransactionNormalization
-} = require('./transaction/split-transactions-by-normalized');
 
 const {
     handleVenmoTransactions
 } = require('./transaction/handle-venmo-transactions');
 
 const {
-    parseNormalizedTransaction
-} = require('./csv/parse-normalized-transactions');
+    normalizeVenmoTransctions
+} = require('./transaction/normalize-venmo-transactions');
 
 const { absoluteFilePath } = require('./util/fs-util');
 
-(async ({
-    absoluteExportsPath = absoluteFilePath('./exports'),
-    absoluteOutputPath = absoluteFilePath('out.csv'),
-    usePreviouslyNormalizedTransactions = true
-}) => {
+(async ({ absoluteExportsPath = absoluteFilePath('./exports') }) => {
     const exportTransactions = await getAllTransactions({
         rootExportPath: absoluteExportsPath
     });
 
-    const previouslyNormalizedTransactions = usePreviouslyNormalizedTransactions
-        ? await parseNormalizedTransaction(absoluteOutputPath)
-        : {};
-
     const { venmoTransactions, nonVenmoTransactions } = handleVenmoTransactions(
-        exportTransactions,
-        previouslyNormalizedTransactions
+        exportTransactions
     );
 
-    const {
-        previouslyNormalizedTrasactions,
-        unnormalizedTrasactions
-    } = applyPreviousTransactionNormalization(
-        nonVenmoTransactions,
-        previouslyNormalizedTransactions
+    const normalizedVenmoTransactions = await normalizeVenmoTransctions(
+        venmoTransactions
     );
 
     const normalizedTransactions = await normalizeTransactions(
-        unnormalizedTrasactions
+        nonVenmoTransactions
     );
 
-    await writeTransactions(
-        [...previouslyNormalizedTrasactions, ...normalizedTransactions],
-        absoluteOutputPath
-    );
+    console.log([...normalizedVenmoTransactions, ...normalizedTransactions]);
 })({});

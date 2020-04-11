@@ -1,27 +1,30 @@
 const { venmoWithdrawlFilter } = require('../config/parsing-config');
 
-const mergeVenmoTransactions = venmoTransactions => {
-    return venmoTransactions.reduce((acc, venmoTransaction) => {
-        const existingVenmoTransactionOnDate = acc.find(
-            vt => vt.date === venmoTransaction.date
-        );
+//
+// todo: this will eventually be used maybe?
+//
+// const mergeVenmoTransactions = venmoTransactions => {
+//     return venmoTransactions.reduce((acc, venmoTransaction) => {
+//         const existingVenmoTransactionOnDate = acc.find(
+//             vt => vt.date === venmoTransaction.date
+//         );
 
-        if (existingVenmoTransactionOnDate) {
-            const accWithoutTransaction = acc.filter(
-                x => x.date !== existingVenmoTransactionOnDate.date
-            );
-            const mergedVenmoTransaction = {
-                ...existingVenmoTransactionOnDate,
-                amount:
-                    existingVenmoTransactionOnDate.amount +
-                    venmoTransaction.amount
-            };
-            return [mergedVenmoTransaction, ...accWithoutTransaction];
-        }
+//         if (existingVenmoTransactionOnDate) {
+//             const accWithoutTransaction = acc.filter(
+//                 x => x.date !== existingVenmoTransactionOnDate.date
+//             );
+//             const mergedVenmoTransaction = {
+//                 ...existingVenmoTransactionOnDate,
+//                 amount:
+//                     existingVenmoTransactionOnDate.amount +
+//                     venmoTransaction.amount
+//             };
+//             return [mergedVenmoTransaction, ...accWithoutTransaction];
+//         }
 
-        return [venmoTransaction, ...acc];
-    }, []);
-};
+//         return [venmoTransaction, ...acc];
+//     }, []);
+// };
 
 const handleVenmoTransactions = transactionsFromExports => {
     const splitTransactions = transactionsFromExports.reduce(
@@ -39,12 +42,8 @@ const handleVenmoTransactions = transactionsFromExports => {
             nonVenmoTransactions: []
         }
     );
-    return {
-        ...splitTransactions,
-        venmoTransactions: mergeVenmoTransactions(
-            splitTransactions.venmoTransactions
-        )
-    };
+
+    return splitTransactions;
 };
 
 module.exports = { handleVenmoTransactions };
