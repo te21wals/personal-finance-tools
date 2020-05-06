@@ -24,7 +24,9 @@
         "fs": "0.0.1-security",
         "inquirer": "^7.1.0",
         "moment": "^2.24.0",
+        "nedb": "^1.8.0",
         "npm": "^6.14.3",
+        "object-hash": "^2.0.3",
         "path": "^0.12.7"
     },
     "husky": {

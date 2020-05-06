@@ -11,11 +11,12 @@ const normalizeVenmoTransctions = async venmoTransactions => {
         console.dir(venmoTransaction, { depth: null, colors: true });
         const answers = await inquirer.prompt(prompts);
 
-        const { date, type, subtype, description, amount } = {
+        const { _id, date, type, subtype, description, amount } = {
             ...venmoTransaction,
             ...answers
         };
         normalizedVenmoTransactions.push({
+            _id,
             date,
             type,
             subtype,

@@ -1,31 +1,5 @@
 const { venmoWithdrawlFilter } = require('../config/parsing-config');
 
-//
-// todo: this will eventually be used maybe?
-//
-// const mergeVenmoTransactions = venmoTransactions => {
-//     return venmoTransactions.reduce((acc, venmoTransaction) => {
-//         const existingVenmoTransactionOnDate = acc.find(
-//             vt => vt.date === venmoTransaction.date
-//         );
-
-//         if (existingVenmoTransactionOnDate) {
-//             const accWithoutTransaction = acc.filter(
-//                 x => x.date !== existingVenmoTransactionOnDate.date
-//             );
-//             const mergedVenmoTransaction = {
-//                 ...existingVenmoTransactionOnDate,
-//                 amount:
-//                     existingVenmoTransactionOnDate.amount +
-//                     venmoTransaction.amount
-//             };
-//             return [mergedVenmoTransaction, ...accWithoutTransaction];
-//         }
-
-//         return [venmoTransaction, ...acc];
-//     }, []);
-// };
-
 const handleVenmoTransactions = transactionsFromExports => {
     const splitTransactions = transactionsFromExports.reduce(
         (acc, exportTransaction) => {

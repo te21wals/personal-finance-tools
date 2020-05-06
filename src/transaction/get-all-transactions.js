@@ -2,6 +2,7 @@ const { resolve } = require('path');
 const { readdir } = require('fs').promises;
 const { parseExport } = require('../csv/parse-export');
 const { applyTransactionMapping } = require('./apply-tansaction-mappings');
+const { addIdToTransaction } = require('./add-id-to-transaction');
 
 async function* getExportFiles(dir) {
     const dirents = await readdir(dir, { withFileTypes: true });
@@ -27,7 +28,9 @@ async function reduceTransactionsToSingleArray(asyncIter) {
     for await (const x of asyncIter) {
         res = [
             ...res,
-            ...x.map(transaction => applyTransactionMapping(transaction))
+            ...x.map(transaction =>
+                applyTransactionMapping(addIdToTransaction(transaction))
+            )
         ];
     }
     return res;

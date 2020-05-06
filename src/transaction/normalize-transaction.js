@@ -14,11 +14,12 @@ const normalizeTransaction = async transaction => {
     if (answers.type === skip) {
         return;
     } else {
-        const { date, type, subtype, description, amount, source } = {
+        const { _id, date, type, subtype, description, amount, source } = {
             ...transaction,
             ...answers
         };
         return {
+            _id,
             date,
             type,
             subtype,
