@@ -14,19 +14,19 @@
     "devDependencies": {
         "eslint": "^6.8.0",
         "eslint-config-prettier": "^6.15.0",
-        "eslint-plugin-prettier": "^3.1.4",
-        "husky": "^4.3.0",
+        "eslint-plugin-prettier": "^3.3.0",
+        "husky": "^4.3.6",
         "minimist": "^1.2.5",
         "prettier": "^1.19.1"
     },
     "dependencies": {
-        "csv-parser": "^2.3.3",
+        "csv-parser": "^2.3.5",
         "fs": "0.0.1-security",
         "inquirer": "^7.3.3",
         "moment": "^2.29.1",
         "nedb": "^1.8.0",
-        "npm": "^6.14.8",
-        "object-hash": "^2.0.3",
+        "npm": "^6.14.10",
+        "object-hash": "^2.1.1",
         "path": "^0.12.7"
     },
     "husky": {
